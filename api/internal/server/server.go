@@ -5,8 +5,10 @@ import (
 	"github.com/Kirillznkv/new_year/api/internal/model"
 	"github.com/Kirillznkv/new_year/api/internal/store"
 	"github.com/gorilla/mux"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type Server struct {
@@ -74,24 +76,39 @@ func (s *Server) handleUsersGet() http.HandlerFunc {
 }
 
 func (s *Server) handleAnswersCreate() http.HandlerFunc {
-	type request struct {
-		Lvl    int    `json:"lvl"`
-		UserId int    `json:"user_id"`
-		Image  string `json:"image"`
+	type header struct {
+		Lvl    int `json:"lvl"`
+		UserId int `json:"user_id"`
+	}
+	type img struct {
+		Image []byte `json:"image"`
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		req := &request{}
+		//req := &img{}
 
-		if err := json.NewDecoder(r.Body).Decode(req); err != nil {
+		err := r.ParseMultipartForm(32 << 20) // maxMemory 32MB
+		if err != nil {
+			s.error(w, r, http.StatusBadRequest, err)
+			return
+		}
+		file, _, err := r.FormFile("image")
+		if err != nil {
 			s.error(w, r, http.StatusBadRequest, err)
 			return
 		}
 
+		lvl, err := strconv.Atoi(r.Header.Get("lvl"))
+		user_id, err := strconv.Atoi(r.Header.Get("user_id"))
+		image, err := ioutil.ReadAll(file)
+		if err != nil {
+			s.error(w, r, http.StatusUnprocessableEntity, err)
+			return
+		}
 		a := &model.Answer{
-			Lvl:    req.Lvl,
-			UserId: req.UserId,
-			Image:  req.Image,
+			Lvl:    lvl,
+			UserId: user_id,
+			Image:  image,
 		}
 		if err := s.store.Answers().Create(a); err != nil {
 			s.error(w, r, http.StatusUnprocessableEntity, err)

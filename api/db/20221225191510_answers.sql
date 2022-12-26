@@ -5,7 +5,7 @@ create table if not exists answers (
     id serial not null primary key,
     lvl integer not null,
     user_id integer not null,
-    image text not null,
+    image bytea not null,
     foreign key (user_id) references users(id)
 );
 -- +goose StatementEnd

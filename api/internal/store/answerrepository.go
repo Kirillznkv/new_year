@@ -1,13 +1,10 @@
 package store
 
 import (
-	"encoding/base64"
-	"errors"
 	"fmt"
 	"github.com/Kirillznkv/new_year/api/internal/model"
 	"log"
 	"os"
-	"strings"
 )
 
 type AnswersRepository struct {
@@ -40,21 +37,7 @@ func (r *AnswersRepository) saveImage(a *model.Answer) error {
 	}
 	defer file.Close()
 
-	b64Parts := strings.Split(a.Image, ",")
-
-	var idx int
-	if l := len(b64Parts); l == 1 {
-		idx = 0
-	} else if l == 2 {
-		idx = 1
-	} else {
-		return errors.New("invalid image")
-	}
-
-	data, err := base64.StdEncoding.DecodeString(b64Parts[idx])
-	if err != nil {
-		return err
-	}
+	data := a.Image
 
 	_, err = file.Write(data)
 
