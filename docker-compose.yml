@@ -13,6 +13,8 @@ services:
       - "8080:8080"
     env_file:
       - api/.env
+    volumes:
+      - ./images:/api/images
 
   postgres:
     restart: always
