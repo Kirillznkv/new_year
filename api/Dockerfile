@@ -7,7 +7,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/pressly/goose/master/install.sh
 WORKDIR /api
 
 
-COPY .. /api
+COPY . /api
 RUN cd /api; go mod download
 
 RUN cd /api; make build
