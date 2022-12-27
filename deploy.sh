@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo -s
 curl -fsSL https://raw.githubusercontent.com/pressly/goose/master/install.sh;
 curl -fsSL get.docker.com -o get-docker.sh; sh get-docker.sh;
 
