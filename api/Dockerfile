@@ -1,9 +1,7 @@
 FROM golang:1.16
 
 
-RUN curl -fsSL \
-        https://raw.githubusercontent.com/pressly/goose/master/install.sh |\
-        sh
+RUN curl -fsSL https://raw.githubusercontent.com/pressly/goose/master/install.sh | sh
 
 
 WORKDIR /api
