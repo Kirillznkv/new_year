@@ -9,5 +9,5 @@ mkdir images/lvl_3;
 make build;
 make up;
 
-sleep 30;
+sleep 5;
 make migrate_up;
