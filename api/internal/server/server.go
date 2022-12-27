@@ -102,7 +102,7 @@ func getImagesName(lvl string) []string {
 	}
 
 	for _, f := range files {
-		path := fmt.Sprintf("http://127.0.0.1:8080/static/%s/%s", lvl, f.Name())
+		path := fmt.Sprintf("http://new-year-questions.netlify.app:8080/static/%s/%s", lvl, f.Name())
 		res = append(res, path)
 	}
 
