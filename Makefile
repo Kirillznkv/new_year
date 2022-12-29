@@ -2,13 +2,6 @@ DOCS=docker-compose.yml
 
 MIGRATIONS_DIR = ./api/db
 DB_URL = "host=localhost port=5432 user=kshanti password=wtrfP9397k19Xk dbname=new_year sslmode=disable"
-#HOME=/Users/kshanti/Desktop/tarot-cards-tgbot
-
-#all: create_dir build up
-
-#.PHONY: create_dir
-#create_dir:
-#		mkdir -p $(HOME)/pgdata
 
 .PHONY: build
 build:
