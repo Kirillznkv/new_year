@@ -4,6 +4,7 @@
 .PHONY: build
 build:
 	go build -v ./cmd/api.go
+	go build -v ./cmd/front.go
 
 #.PHONY: db_up
 #db_up:
