@@ -24,7 +24,7 @@ migrate_up:
 migrate_down:
 	goose -dir $(MIGRATIONS_DIR) postgres $(DB_URL) down
 
-#.PHONY: fclean
-#fclean: stop
-#		sudo rm -rf $(HOME)/pgdata
-#		docker volume rm tarot-cards-tgbot_postgres -f
+.PHONY: fclean
+fclean: stop
+		sudo rm -rf ./pgdata ./images
+		#docker volume rm tarot-cards-tgbot_postgres -f
