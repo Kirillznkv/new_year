@@ -11,8 +11,12 @@ build:
 up:
 		docker-compose -f $(DOCS) up -d
 
+.PHONY: down
+down:
+		docker-compose -f $(DOCS) down -d
+
 .PHONY: stop
-stop:
+stop: down
 		docker stop $$(docker ps -aq)
 		docker rm $$(docker ps -aq)
 
