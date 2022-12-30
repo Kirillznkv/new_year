@@ -90,7 +90,7 @@ func getImagesName(lvl string) []string {
 	}
 
 	for _, f := range files {
-		path := fmt.Sprintf("http://188.94.158.55:8080/static/%s/%s", lvl, f.Name())
+		path := fmt.Sprintf("http://188.94.158.55/static/%s/%s", lvl, f.Name())
 		res = append(res, path)
 	}
 
