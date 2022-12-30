@@ -66,7 +66,6 @@ func (s *Server) handleLvl() http.HandlerFunc {
 		vars := mux.Vars(r)
 
 		lvl := vars["lvl"]
-		log.Println("GET LVL !!!!!!!!!!!!!!!!!", lvl)
 		imagesPath := getImagesName(lvl)
 
 		t, err := template.ParseFiles("./internal/templates/answers.html")
