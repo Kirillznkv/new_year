@@ -13,7 +13,7 @@ up:
 
 .PHONY: down
 down:
-		docker-compose -f $(DOCS) down -d
+		docker-compose -f $(DOCS) down
 
 .PHONY: stop
 stop: down
