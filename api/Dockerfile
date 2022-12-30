@@ -12,4 +12,4 @@ RUN cd /api; go mod download
 
 RUN cd /api; make build
 
-ENTRYPOINT ["./runner.sh"]
+ENTRYPOINT ["./server"]
