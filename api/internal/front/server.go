@@ -64,7 +64,7 @@ func getTexts() []string {
 	}
 
 	for _, path := range files {
-		f, err := os.Open(path.Name())
+		f, err := os.Open("./texts/" + path.Name())
 		if err != nil {
 			log.Fatal(err)
 			return nil
