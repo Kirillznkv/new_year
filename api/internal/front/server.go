@@ -35,7 +35,7 @@ func (s *Server) configureRouter() {
 	s.router.HandleFunc("/", s.handleHome()).Methods("Get")
 	s.router.HandleFunc("/lvl/{lvl}", s.handleLvl()).Methods("Get")
 	s.router.HandleFunc("/static/{lvl}/{name}", s.handleStatic()).Methods("Get")
-	s.router.HandleFunc("/text", s.handleTextGet()).Methods("Get")
+	s.router.HandleFunc("/texts", s.handleTextGet()).Methods("Get")
 }
 
 func (s *Server) handleTextGet() http.HandlerFunc {
