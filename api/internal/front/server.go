@@ -57,7 +57,7 @@ func (s *Server) handleTextGet() http.HandlerFunc {
 func getTexts() []string {
 	var res []string
 
-	files, err := ioutil.ReadDir("./text")
+	files, err := ioutil.ReadDir("./texts")
 	if err != nil {
 		log.Fatal(err)
 		return nil
