@@ -30,5 +30,5 @@ migrate_down:
 
 .PHONY: fclean
 fclean: stop
-		sudo rm -rf ./pgdata ./images
+		sudo rm -rf ./pgdata ./images ./texts
 		#docker volume rm tarot-cards-tgbot_postgres -f

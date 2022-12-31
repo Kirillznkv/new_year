@@ -9,10 +9,10 @@
 
 make stop;
 
+mkdir texts;
 mkdir images;
 mkdir images/lvl_1;
 mkdir images/lvl_2;
-mkdir images/lvl_3;
 
 make build;
 make up;

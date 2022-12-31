@@ -1,6 +1,8 @@
 package front
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -8,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 type Server struct {
@@ -32,6 +35,51 @@ func (s *Server) configureRouter() {
 	s.router.HandleFunc("/", s.handleHome()).Methods("Get")
 	s.router.HandleFunc("/lvl/{lvl}", s.handleLvl()).Methods("Get")
 	s.router.HandleFunc("/static/{lvl}/{name}", s.handleStatic()).Methods("Get")
+	s.router.HandleFunc("/text", s.handleTextGet()).Methods("Get")
+}
+
+func (s *Server) handleTextGet() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		texts := getTexts()
+
+		t, err := template.ParseFiles("./internal/templates/text.html")
+		if err != nil {
+			s.error(w, r, 500, err)
+		}
+
+		t.Execute(w, texts)
+
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.WriteHeader(200)
+	}
+}
+
+func getTexts() []string {
+	var res []string
+
+	files, err := ioutil.ReadDir("./text")
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
+
+	for _, path := range files {
+		f, err := os.Open(path.Name())
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+
+		wr := bytes.Buffer{}
+		sc := bufio.NewScanner(f)
+		for sc.Scan() {
+			wr.WriteString(sc.Text())
+		}
+
+		res = append(res, wr.String())
+	}
+
+	return res
 }
 
 func (s *Server) handleStatic() http.HandlerFunc {

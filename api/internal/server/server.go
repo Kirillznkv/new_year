@@ -2,12 +2,14 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/Kirillznkv/new_year/api/internal/model"
 	"github.com/Kirillznkv/new_year/api/internal/store"
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -37,6 +39,53 @@ func (s *Server) configureRouter() {
 
 	s.router.HandleFunc("/answers", s.handleAnswersCreate()).Methods("Post")
 	s.router.HandleFunc("/answers", s.handleAnswersGet()).Methods("Get")
+
+	s.router.HandleFunc("/text", s.handleTextCreate()).Methods("Post")
+}
+
+func (s *Server) handleTextCreate() http.HandlerFunc {
+	type request struct {
+		Text string `json:"text"`
+	}
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		req := &request{}
+
+		if err := json.NewDecoder(r.Body).Decode(req); err != nil {
+			log.Println(r.Body)
+			s.error(w, r, http.StatusBadRequest, err)
+			return
+		}
+
+		user_id, err := strconv.Atoi(r.URL.Query().Get("user_id"))
+		if err != nil {
+			s.error(w, r, http.StatusBadRequest, err)
+			return
+		}
+
+		u, err := s.store.Users().FindById(user_id)
+		if err != nil {
+			s.error(w, r, http.StatusUnprocessableEntity, err)
+			return
+		}
+
+		u.Text = fmt.Sprintf("%s\n%s", u.FirstName, req.Text)
+
+		saveText(u)
+
+		s.respond(w, r, http.StatusCreated, nil)
+	}
+}
+
+func saveText(u *model.User) {
+	savePath := fmt.Sprintf("./texts/%s", u.FirstName+u.SecondName)
+
+	file, _ := os.Create(savePath)
+	defer file.Close()
+
+	data := u.Text
+
+	file.Write([]byte(data))
 }
 
 func (s *Server) handleUsersCreate() http.HandlerFunc {
