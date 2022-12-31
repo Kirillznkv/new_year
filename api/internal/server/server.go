@@ -69,7 +69,7 @@ func (s *Server) handleTextCreate() http.HandlerFunc {
 			return
 		}
 
-		u.Text = fmt.Sprintf("%s\n%s", u.FirstName, req.Text)
+		u.Text = fmt.Sprintf("%s:   %s", u.FirstName, req.Text)
 
 		saveText(u)
 
