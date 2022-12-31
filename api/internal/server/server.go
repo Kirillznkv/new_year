@@ -49,7 +49,7 @@ func (s *Server) handleUsersCreate() http.HandlerFunc {
 		req := &request{}
 
 		if err := json.NewDecoder(r.Body).Decode(req); err != nil {
-			log.Println(r.GetBody())
+			log.Println(r.Body)
 			s.error(w, r, http.StatusBadRequest, err)
 			return
 		}
