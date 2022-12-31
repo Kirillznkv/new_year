@@ -16,6 +16,7 @@ services:
       - api/.env
     volumes:
       - ./images:/api/images
+      - ./texts:/api/texts
 
   postgres:
     restart: always
